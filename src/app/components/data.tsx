@@ -6,21 +6,6 @@ import { useDropzone } from 'react-dropzone'
 
 interface DMARCReport {
     // Define the structure & type
-    report_metadata?: {
-        org_name?: string
-        email?: string
-        report_id?: string
-        date_range?: { begin?: number; end?: number }
-    }
-    policy_published?: {
-        domain?: string
-        adkim?: string
-        aspf?: string
-        p?: string
-        sp?: string
-        pct?: number
-        fo?: string
-    }
     record?: Array<{
         row?: {
             source_ip?: string
@@ -91,60 +76,17 @@ export default function Data() {
         <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-white text-white">
             <div
                 {...getRootProps()}
-                className="w-96 p-6 border-2 border-dashed border-gray-500 bg-black rounded-lg cursor-pointer text-center"
+                className="w-96 p-6 bg-black rounded-lg cursor-pointer text-center"
             >
                 <input {...getInputProps()} />
                 <p>Drop a XML file here, or click to select</p>
             </div>
             {parsedData && (
-                <div className="mt-6 w-full max-w-2xl p-6 bg-black shadow-lg rounded-lg">
+                <div className="mt-6 w-full max-w-4xl p-6 bg-black shadow-lg rounded-lg">
                     <h2 className="text-xl font-bold mb-4">
                         DMARC Report Summary
                     </h2>
-                    <div className="mb-4">
-                        <h3 className="font-semibold">Report Metadata</h3>
-                        <p>
-                            <strong>Organization:</strong>{' '}
-                            {parsedData.report_metadata?.org_name}
-                        </p>
-                        <p>
-                            <strong>Email:</strong>{' '}
-                            {parsedData.report_metadata?.email}
-                        </p>
-                        <p>
-                            <strong>Report ID:</strong>{' '}
-                            {parsedData.report_metadata?.report_id}
-                        </p>
-                    </div>
-                    <div className="mb-4">
-                        <h3 className="font-semibold">Policy</h3>
-                        <p>
-                            <strong>Domain:</strong>{' '}
-                            {parsedData.policy_published?.domain}
-                        </p>
-                        <p>
-                            <strong>Policy:</strong>{' '}
-                            {parsedData.policy_published?.p}
-                        </p>
-                        <p>
-                            <strong>Subdomain Policy:</strong>{' '}
-                            {parsedData.policy_published?.sp}
-                        </p>
-                        <p>
-                            <strong>DKIM Alignment:</strong>{' '}
-                            {parsedData.policy_published?.adkim}
-                        </p>
-                        <p>
-                            <strong>SPF Alignment:</strong>{' '}
-                            {parsedData.policy_published?.aspf}
-                        </p>
-                        <p>
-                            <strong>Percentage Applied:</strong>{' '}
-                            {parsedData.policy_published?.pct}%
-                        </p>
-                    </div>
                     <div>
-                        <h3 className="font-semibold">Records</h3>
                         <table className="w-full border-collapse border border-gray-300">
                             <thead>
                                 <tr className="bg-gray-800">
@@ -165,6 +107,9 @@ export default function Data() {
                                     </th>
                                     <th className="border border-gray-300 p-2">
                                         Envelope From
+                                    </th>
+                                    <th className="border border-gray-300 p-2">
+                                        Envelope To
                                     </th>
                                     <th className="border border-gray-300 p-2">
                                         Header From
@@ -197,6 +142,9 @@ export default function Data() {
                                         </td>
                                         <td className="border border-gray-300 p-2">
                                             {record.identifiers?.envelope_from}
+                                        </td>
+                                        <td className="border border-gray-300 p-2">
+                                            {record.identifiers?.envelope_to}
                                         </td>
                                         <td className="border border-gray-300 p-2">
                                             {record.identifiers?.header_from}
